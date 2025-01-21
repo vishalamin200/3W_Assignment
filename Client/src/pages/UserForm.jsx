@@ -1,9 +1,8 @@
+import axios from "axios"
 import { useState } from "react"
 import toast from "react-hot-toast"
 
 import Navbar from "../components/Navbar"
-import axiosInstance from "../axios/axiosInstance"
-import axios from "axios"
 
 
 const UserForm = () => {
@@ -19,18 +18,18 @@ const UserForm = () => {
         }))
     }
 
-    const hanldeFileUpload = (e)=>{
+    const hanldeFileUpload = (e) => {
         const inputFiles = e.target.files
         const name = e.target.name
         const files = Array.from(inputFiles)
-        setUserInfo((userInfo)=>({
+        setUserInfo((userInfo) => ({
             ...userInfo,
-            [name]:files
+            [name]: files
         }))
     }
 
     const handleSubmit = (e) => {
-        
+
         e.preventDefault()
         if (!userInfo?.name) {
             return toast.error("Name is Required")
@@ -43,35 +42,35 @@ const UserForm = () => {
         }
 
         const formData = new FormData()
-        Array.from(userInfo.images).forEach((file)=>{
-            formData.append('images',file)
+        Array.from(userInfo.images).forEach((file) => {
+            formData.append('images', file)
         })
 
-        formData.append('name',userInfo?.name)
-        formData.append('social',userInfo?.social)
-        console.log("formData",formData)
-        console.log("UserINfo",userInfo)
-        
+        formData.append('name', userInfo?.name)
+        formData.append('social', userInfo?.social)
+        console.log("formData", formData)
+        console.log("UserINfo", userInfo)
+
         try {
-            const responsePromise = axios.post('http://localhost:6050/api/submit',formData,{
+            const responsePromise = axios.post('https://aws-vishal.mooo.com/api/submit', formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
-                  },
+                },
             })
-            toast.promise(responsePromise,{
-                loading:"Form Is Submitting...",
-                success:"Form Submitted Successfully",
-                error:(err)=>err?.response?.data?.message
+            toast.promise(responsePromise, {
+                loading: "Form Is Submitting...",
+                success: "Form Submitted Successfully",
+                error: (err) => err?.response?.data?.message
             })
-            
+
         } catch (error) {
-            console.log("Error",error.message)
-            return 
+            console.log("Error", error.message)
+            return
         }
     }
 
     return (
-        <div className="flex h-screen flex-col items-center justify-center gap-y-8 bg-[#2D2D2D] ">
+        <div className="flex h-screen flex-col items-center  gap-y-8 bg-[#2D2D2D] pt-8 ">
             <Navbar />
 
             <form onSubmit={handleSubmit} className="h-content  flex w-9/12 flex-col gap-y-6 bg-white px-12 pb-10 pl-12 pt-6 shadow-md shadow-black ">

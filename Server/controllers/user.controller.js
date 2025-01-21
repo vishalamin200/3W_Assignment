@@ -45,7 +45,7 @@ const formSubmission = async (req,res,next)=>{
             })
         
             const results = await Promise.all(uploadImagesPromises)
-            console.log("results",results)
+         
     
            const images = results.map((result)=>({
                 public_id: result?.public_id, 
@@ -53,7 +53,7 @@ const formSubmission = async (req,res,next)=>{
             }))
 
             // Now create a user, because there is no error yet,
-            console.log(images)
+          
 
             const newUser = await UserModel.create({
                 name,
